@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/actuallyakshat/todo-crud/initialisers"
+	"github.com/actuallyakshat/todo-crud/routes"
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,17 +17,21 @@ func init() {
 
 func main() {
 	r := gin.Default()
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "Hello World",
-		})
-	})
 
 	r.GET("/health", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "Healthy",
 		})
 	})
+
+	r.LoadHTMLGlob("templates/*")
+
+	r.GET("/", func(c *gin.Context) {
+		// Render the index.html file
+		c.HTML(200, "index.html", gin.H{})
+	})
+
+	routes.TodoRoutes(r)
 
 	r.Run()
 }
